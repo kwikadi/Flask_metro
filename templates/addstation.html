@@ -40,7 +40,7 @@
 	<div class="row">
         <div class="col-lg-8">
           <h2>Basic Info</h2>
-		  <form role="form" class="col-md-9 go-right" action="editinfo.html">
+		  <form role="form" class="col-md-9 go-right" action="/addinfo">
             <p>Station Name</p>
       <div class="form-group">
       <input id="source" name="source" type="text" class="form-control" required>
@@ -53,15 +53,64 @@
       <label for="source">Line</label>
       </div>
 
-           <p>Station Next To</p>
-      <div class="form-group">
-      <input id="source" name="source" type="text" class="form-control" required>
-      <label for="source">Neighbour Station</label>
+           <p>Opening Date</p>
+          <div class="form-group">
+            <input id="source" name="source" type="text" class="form-control" required>
+            <label for="source">Date</label>
+          </div>
+
+          <p>Pincode</p>
+          <div class="form-group">
+            <input id="source" name="source" type="text" class="form-control" required>
+            <label for="source">Pincode</label>
+          </div>
+
+          <p>Washroom</p>
+          <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary active">
+          <input type="radio" name="options" id="option1" checked> Yes
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="options" id="option2"> No
+        </label>
+      </div>
+
+          <p><br>Parking</p>
+          <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary active">
+          <input type="radio" name="options" id="option1" checked> Yes
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="options" id="option2"> No
+        </label>
+      </div>
+
+          <p><br>Grade</p>
+          <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary active">
+          <input type="radio" name="options" id="option1" checked>Underground
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="options" id="option2"> At Grade
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="options" id="option3"> Elevated
+        </label>
+      </div>
+
+          <p><br>Elevator/Escalator</p>
+          <div class="btn-group" data-toggle="buttons">
+        <label class="btn btn-primary active">
+          <input type="radio" name="options" id="option1" checked> Yes
+        </label>
+        <label class="btn btn-primary">
+          <input type="radio" name="options" id="option2"> No
+        </label>
       </div>
 
 		<br>
 
-  <button type="submit" class="btn btn-default">Continue to Station Info</button>
+  <button type="submit" class="btn btn-default">Submit</button>
     </form>
 
         </div>

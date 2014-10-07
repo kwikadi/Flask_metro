@@ -68,35 +68,60 @@ def admin():
 	print 'THIS IS A HOLD UP'
 	return redirect(url_for('home'))
 
-@app.route('/add_min')
+@app.route('/addadmin')
+def addadmin():
+	data = "You aren't logged in as admin yet. Please login first."
+	if request.method == 'POST':
+		data = "Admin already exists"
+		user = request.form['user']
+		passw = request.form['passa']
+		passo = request.form['passb']
+		if passo == passw:
+			data = "Admin added successfully"
+			cursor = mysql.connect().cursor()
+			cursor.execute("INSERT into metro_admin values (" + user + "," + passw + ")")
+			return render_template("boilerplate.html",data=data)
+		else:
+			return render_template("boilerplate.html",data=data)
+	return render_template("boilerplate.html",data=data)
+
+@app.route('/addmin')
 def adder():
+	data = "You aren't logged in as admin yet. Please login first."
 	if logged_in == 1:
-		return render_template('add_min.html')
-	return redirect(url_for('home'))
+		return render_template('addmin.html')
+	return render_template('boilerplate.html',data=data)
 
 @app.route('/addstation')
 def stati():
+	data = "You aren't logged in as admin yet. Please login first."
 	if logged_in == 1:
 		return render_template('addstation.html')
-	return redirect(url_for('home'))
+	return render_template('boilerplate.html',data=data)
 
 @app.route('/editinfo')
 def infoedit():
+	data = "You aren't logged in as admin yet. Please login first."
 	if logged_in == 1:
 		cursor = mysql.connect().cursor()
 		cursor.execute("SELECT distinct sname from metro_facility")
 		data = cursor.fetchall()
 		return render_template('editinfo.html',data=data)
-	return redirect(url_for('home'))
+	return render_template('boilerplate.html',data=data)
 
 @app.route('/re_view')
 def rehash():
+	data = "You aren't logged in as admin yet. Please login first."
 	if logged_in == 1:
-		return render_template('re_view.html')
-	return redirect(url_for('home'))
+		cursor = mysql.connect().cursor()
+		cursor.execute("SELECT * from reviews where approval = 'no' ")
+		data = cursor.fetchall()
+		return render_template('re_view.html',data=data)
+	return render_template('boilerplate.html',data=data)
 
 @app.route('/authenticate', methods=['POST','GET'])
 def login():
+	data = "Some error occured while processing your request. Please try again."
 	error = None
 	if request.method == 'POST':
 		user = request.form['InputEmail']
@@ -108,7 +133,7 @@ def login():
 			global logged_in
 			logged_in = 1
 			return redirect(url_for('admin'))
-	return redirect(url_for('home'))
+	return render_template('boilerplate.html',data=data)
 
 @app.route('/directions2', methods=['POST', 'GET'])
 def dir_actual():
