@@ -14,14 +14,9 @@
     <link href="/static/css/select2.css" rel="stylesheet"/>
     <script src="/static/js/select2.js"></script>
     <script>
-        $(document).ready(function() {
-        $("#e3").select2();
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-        $("#e4").select2();
+        $(document).ready(function()
+        {
+          $("#e3, #e4").select2({width:'resolve'});
         });
     </script>
     <title>Directions</title>
@@ -81,14 +76,14 @@
     <div class="col-md-6">
 		<form role="form" class="col-md-9 go-right" action="/directions2" method= "post">
     <p>Enter your start station: </p>
-    <select id="e3" name="source">
+    <select id="e3" name="source" type="hidden">
         {% for i in data: %}
         <option value="{{ i[0] }}">{{ i[0] }}</option>
         {% endfor %}
     </select>
     <br><br>
     <p>Enter your end station: </p>
-    <select id="e4" name="dest">
+    <select id="e4" name="dest" type="hidden">
         {% for i in data: %}
         <option value="{{ i[0] }}">{{ i[0] }}</option>
         {% endfor %}

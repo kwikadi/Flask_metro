@@ -2,6 +2,8 @@ from flask import Flask,render_template,request,redirect,url_for
 from flaskext.mysql import MySQL
 app = Flask(__name__)
 
+logged_in = 0
+
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'aditya'
@@ -59,7 +61,39 @@ def add():
 		msg = "Review has been added"
 		return render_template('/added',msg=msg)'''
 
+@app.route('/admin')
+def admin():
+	if logged_in == 1:
+		return render_template('admin.html')
+	print 'THIS IS A HOLD UP'
+	return redirect(url_for('home'))
 
+@app.route('/add_min')
+def adder():
+	if logged_in == 1:
+		return render_template('add_min.html')
+	return redirect(url_for('home'))
+
+@app.route('/addstation')
+def stati():
+	if logged_in == 1:
+		return render_template('addstation.html')
+	return redirect(url_for('home'))
+
+@app.route('/editinfo')
+def infoedit():
+	if logged_in == 1:
+		cursor = mysql.connect().cursor()
+		cursor.execute("SELECT distinct sname from metro_facility")
+		data = cursor.fetchall()
+		return render_template('editinfo.html',data=data)
+	return redirect(url_for('home'))
+
+@app.route('/re_view')
+def rehash():
+	if logged_in == 1:
+		return render_template('re_view.html')
+	return redirect(url_for('home'))
 
 @app.route('/authenticate', methods=['POST','GET'])
 def login():
@@ -70,11 +104,11 @@ def login():
 		cursor = mysql.connect().cursor()
 		cursor.execute("SELECT count(*) from metro_admin where username='" + user + "' and password='" + passw + "'")
 		count = cursor.fetchone()
-		if count == 1:
-			return render_template('admin.html')
-		else:
-			error = 'Invalid username/password'
-			return render_template('error.html', error=error)
+		if count[0] == 1:
+			global logged_in
+			logged_in = 1
+			return redirect(url_for('admin'))
+	return redirect(url_for('home'))
 
 @app.route('/directions2', methods=['POST', 'GET'])
 def dir_actual():

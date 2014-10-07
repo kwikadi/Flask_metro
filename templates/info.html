@@ -15,7 +15,7 @@
     <script src="/static/js/select2.js"></script>
     <script>
         $(document).ready(function() {
-        $("#e1").select2();
+        $("#e1").select2({width:'resolve'});
         });
 
     </script>
@@ -78,7 +78,7 @@
 <div class="col-md-6">
   <form role="form" class="col-md-9 go-right" action="/info2" method="post">
     <p>Enter the station you want information for: </p>
-    <select id="e1" name="stat_name">
+    <select id="e1" type="hidden" name="stat_name" >
         {% for i in data: %}
         <option value="{{ i[0] }}">{{ i[0] }}</option>
         {% endfor %}
