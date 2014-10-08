@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="assets/img/icon.ico">
 
-    <title>Admin: Add Station</title>
+    <title>Admin: Approve Reviews</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
@@ -59,12 +59,13 @@
       <tbody>
         {% for i in data: %}
         <tr>
+          <td> 1 </td>
           <td>{{ i[0] }}</td>
           <td>{{ i[1] }}</td>
+          <td>{{ i[4] }}</td>
           <td>{{ i[2] }}</td>
           <td>{{ i[3] }}</td>
-          <td>{{ i[4] }}</td>
-          <td><button type="submit" class="btn btn-default">Submit</button></td>
+          <td><button type="submit" class="btn btn-default">Approve</button></td>
         </tr>
         {% endfor %}
       </tbody>

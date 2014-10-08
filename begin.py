@@ -44,42 +44,46 @@ def review():
 def review2():
 	name = request.args.get('stat_name')
 	cursor = mysql.connect().cursor()
-	cursor.execute("SELECT title,author,timest,bodytext from reviews where sname = '"+ name +"'")
+	cursor.execute("SELECT title,author,timest,bodytext from reviews where sname = '"+ name +"' and approval = 'Yes'")
 	review = cursor.fetchall()
 	return render_template('review2.html',review=review)
 
-'''@app.review('/add_rev') #ISSSSSSUE
+@app.route('/add_rev',methods=['GET','POST'])
 def add():
-	msg = "Error, please try again"
+	data = "Error, please try again"
 	if request.method == 'POST':
 		stat = request.form['stat']
 		title = request.form['title']
 		desc = request.form['desc']
 		author = request.form['author']
 		cursor = mysql.connect().cursor()
-		#cursor.execute("INSERT into reviews values ("'+ stat + '","' + title + '","' + author + '", now() ,"'+desc +'")
-		msg = "Review has been added"
-		return render_template('/added',msg=msg)'''
+		cursor.execute("insert into reviews values ('"+ stat + "','" + title + "','" + author + "', now() ,'" + desc + "','No')")
+		cursor.execute('COMMIT')
+		#cursor.execute("CALL ins_reviews('" + stat +"','" + title +"','"+ author + "','" +desc +"')")
+		data = "Review has been added. It will be displayed once approved by the admin."
+	return render_template('boilerplate.html',data=data)
 
 @app.route('/admin')
 def admin():
+	data = "You are not logged in. Please log in to access admin features."
 	if logged_in == 1:
 		return render_template('admin.html')
 	print 'THIS IS A HOLD UP'
-	return redirect(url_for('home'))
+	return render_template("boilerplate.html", data=data)
 
-@app.route('/addadmin')
+@app.route('/addadmin', methods=['POST','GET'])
 def addadmin():
 	data = "You aren't logged in as admin yet. Please login first."
 	if request.method == 'POST':
-		data = "Admin already exists"
+		data = "Passwords don't match, please try again."
+		cursor = mysql.connect().cursor()
 		user = request.form['user']
 		passw = request.form['passa']
 		passo = request.form['passb']
 		if passo == passw:
 			data = "Admin added successfully"
-			cursor = mysql.connect().cursor()
-			cursor.execute("INSERT into metro_admin values (" + user + "," + passw + ")")
+			cursor.execute("insert into metro_admin values ('" + user + "','" + passw + "')")
+			cursor.execute('COMMIT')
 			return render_template("boilerplate.html",data=data)
 		else:
 			return render_template("boilerplate.html",data=data)
@@ -109,12 +113,31 @@ def infoedit():
 		return render_template('editinfo.html',data=data)
 	return render_template('boilerplate.html',data=data)
 
+@app.route('/addstat')
+def addstat():
+	data = "You aren't logged in as admin yet. Please login first."
+	if logged_in == 1:
+		if request.method == 'POST':
+			sname = request.form['sname']
+			sline = request.form['sline']
+			opdate = request.form['opdate']
+			pin = request.form['pin']
+			wash = request.form['wash']
+			park = request.form['park']
+			grade = request.form['grade']
+			elev = request.form['elev']
+			park = request.form['park']
+			king = request.form['king']
+			room = request.form['room']
+			elev = request.form['elev']
+	return render_template('boilerplate.html',data=data)
+
 @app.route('/re_view')
 def rehash():
 	data = "You aren't logged in as admin yet. Please login first."
 	if logged_in == 1:
 		cursor = mysql.connect().cursor()
-		cursor.execute("SELECT * from reviews where approval = 'no' ")
+		cursor.execute("SELECT * from reviews where approval = 'No' ")
 		data = cursor.fetchall()
 		return render_template('re_view.html',data=data)
 	return render_template('boilerplate.html',data=data)
