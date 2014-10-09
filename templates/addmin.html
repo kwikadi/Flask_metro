@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="assets/img/icon.ico">
 
-    <title>Admin: Add Admin</title>
+    <title>Admin: Admin Panel</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
@@ -29,17 +29,18 @@
         <h3 class="text-muted"><a href ="/">DMRC</a> Admin Page</h3>
         <ul class="nav nav-justified">
           <li><a href="/admin">Home</a></li>
-          <li class="active"><a href="/addmin">Add New Admin</a></li>
+          <li class="active"><a href="/addmin">Admin Panel</a></li>
           <li><a href="/addstation">Add Station</a></li>
           <li><a href="/editinfo">Edit Station Info.</a></li>
           <li><a href="/re_view">Approve Reviews</a></li>
+          <li><a href="/places">Modify Places</a></li>
         </ul>
       </div>
 	<br>
 	<br>
 	<div class="row">
-        <div class="col-lg-8">
-          <h2>Admin Credentials</h2>
+        <div class="col-lg-6">
+          <h2>Add Admin</h2>
 		  <form role="form" class="col-md-9 go-right" action="/addadmin" method="post">
             <p>Admin Username (Email id):</p>
       <div class="form-group">
@@ -62,6 +63,24 @@
 		<br>
 
         <button type="submit" class="btn btn-default">Create Admin</button>
+    </form>
+
+        </div>
+        <div class="col-lg-6">
+          <h2>Delete Your Account</h2>
+      <form role="form" class="col-md-9 go-right" action="/deladmin" method="post">
+
+           <p>Enter Your Password:</p>
+      <div class="form-group">
+      <input id="source2" name="passa" type="password" class="form-control" required>
+      <label for="source2">Password</label>
+      </div>
+
+
+    <br>
+    <br>
+
+        <button type="submit" class="btn btn-default">Delete Account</button>
     </form>
 
         </div>

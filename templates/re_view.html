@@ -29,10 +29,11 @@
         <h3 class="text-muted"><a href ="/">DMRC</a> Admin Page</h3>
         <ul class="nav nav-justified">
           <li><a href="/admin">Home</a></li>
-          <li class="active"><a href="/addmin">Add New Admin</a></li>
+          <li><a href="/addmin">Admin Panel</a></li>
           <li><a href="/addstation">Add Station</a></li>
           <li><a href="/editinfo">Edit Station Info.</a></li>
-          <li><a href="/re_view">Approve Reviews</a></li>
+          <li class="active"><a href="/re_view">Approve Reviews</a></li>
+          <li><a href="/places">Modify Places</a></li>
         </ul>
       </div>
 	<br>
@@ -59,13 +60,13 @@
       <tbody>
         {% for i in data: %}
         <tr>
-          <td> 1 </td>
+          <td>{{ data.index(i) + 1 }}</td>
           <td>{{ i[0] }}</td>
           <td>{{ i[1] }}</td>
           <td>{{ i[4] }}</td>
           <td>{{ i[2] }}</td>
           <td>{{ i[3] }}</td>
-          <td><button type="submit" class="btn btn-default">Approve</button></td>
+          <td><a href="/re_view2?id={{ i[3] }}"><button type="submit" class="btn btn-default">Approve</button></a></td>
         </tr>
         {% endfor %}
       </tbody>

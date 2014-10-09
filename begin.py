@@ -63,101 +63,6 @@ def add():
 		data = "Review has been added. It will be displayed once approved by the admin."
 	return render_template('boilerplate.html',data=data)
 
-@app.route('/admin')
-def admin():
-	data = "You are not logged in. Please log in to access admin features."
-	if logged_in == 1:
-		return render_template('admin.html')
-	print 'THIS IS A HOLD UP'
-	return render_template("boilerplate.html", data=data)
-
-@app.route('/addadmin', methods=['POST','GET'])
-def addadmin():
-	data = "You aren't logged in as admin yet. Please login first."
-	if request.method == 'POST':
-		data = "Passwords don't match, please try again."
-		cursor = mysql.connect().cursor()
-		user = request.form['user']
-		passw = request.form['passa']
-		passo = request.form['passb']
-		if passo == passw:
-			data = "Admin added successfully"
-			cursor.execute("insert into metro_admin values ('" + user + "','" + passw + "')")
-			cursor.execute('COMMIT')
-			return render_template("boilerplate.html",data=data)
-		else:
-			return render_template("boilerplate.html",data=data)
-	return render_template("boilerplate.html",data=data)
-
-@app.route('/addmin')
-def adder():
-	data = "You aren't logged in as admin yet. Please login first."
-	if logged_in == 1:
-		return render_template('addmin.html')
-	return render_template('boilerplate.html',data=data)
-
-@app.route('/addstation')
-def stati():
-	data = "You aren't logged in as admin yet. Please login first."
-	if logged_in == 1:
-		return render_template('addstation.html')
-	return render_template('boilerplate.html',data=data)
-
-@app.route('/editinfo')
-def infoedit():
-	data = "You aren't logged in as admin yet. Please login first."
-	if logged_in == 1:
-		cursor = mysql.connect().cursor()
-		cursor.execute("SELECT distinct sname from metro_facility")
-		data = cursor.fetchall()
-		return render_template('editinfo.html',data=data)
-	return render_template('boilerplate.html',data=data)
-
-@app.route('/addstat')
-def addstat():
-	data = "You aren't logged in as admin yet. Please login first."
-	if logged_in == 1:
-		if request.method == 'POST':
-			sname = request.form['sname']
-			sline = request.form['sline']
-			opdate = request.form['opdate']
-			pin = request.form['pin']
-			wash = request.form['wash']
-			park = request.form['park']
-			grade = request.form['grade']
-			elev = request.form['elev']
-			park = request.form['park']
-			king = request.form['king']
-			room = request.form['room']
-			elev = request.form['elev']
-	return render_template('boilerplate.html',data=data)
-
-@app.route('/re_view')
-def rehash():
-	data = "You aren't logged in as admin yet. Please login first."
-	if logged_in == 1:
-		cursor = mysql.connect().cursor()
-		cursor.execute("SELECT * from reviews where approval = 'No' ")
-		data = cursor.fetchall()
-		return render_template('re_view.html',data=data)
-	return render_template('boilerplate.html',data=data)
-
-@app.route('/authenticate', methods=['POST','GET'])
-def login():
-	data = "Some error occured while processing your request. Please try again."
-	error = None
-	if request.method == 'POST':
-		user = request.form['InputEmail']
-		passw = request.form['InputPassword']
-		cursor = mysql.connect().cursor()
-		cursor.execute("SELECT count(*) from metro_admin where username='" + user + "' and password='" + passw + "'")
-		count = cursor.fetchone()
-		if count[0] == 1:
-			global logged_in
-			logged_in = 1
-			return redirect(url_for('admin'))
-	return render_template('boilerplate.html',data=data)
-
 @app.route('/directions2', methods=['POST', 'GET'])
 def dir_actual():
 	if request.method == 'POST':
@@ -202,6 +107,129 @@ def closer(info):
 	return render_template('nearest.html')
 
 
+@app.route('/admin')
+def admin():
+	data = "You are not logged in. Please log in to access admin features."
+	if logged_in == 1:
+		return render_template('admin.html')
+	print 'THIS IS A HOLD UP'
+	return render_template("boilerplate.html", data=data)
+
+@app.route('/addadmin', methods=['POST','GET'])
+def addadmin():
+	data = "You aren't logged in as admin yet. Please login first."
+	if request.method == 'POST':
+		data = "Passwords don't match, please try again."
+		cursor = mysql.connect().cursor()
+		user = request.form['user']
+		passw = request.form['passa']
+		passo = request.form['passb']
+		if passo == passw:
+			data = "Admin added successfully"
+			cursor.execute("insert into metro_admin values ('" + user + "','" + passw + "')")
+			cursor.execute('COMMIT')
+			return render_template("boilerplate.html",data=data)
+		else:
+			return render_template("boilerplate.html",data=data)
+	return render_template("boilerplate.html",data=data)
+
+@app.route('/deladmin',methods=['GET','POST'])
+def adder():
+	data = "You aren't logged in as admin yet. Please login first."
+	if logged_in == 1:
+		data = "Please access page through proper channel."
+		if request.method == 'POST':
+			data = "Password is incorrect."
+			user = request.form['pass']
+			cursor = mysql.connect().cursor()
+			cursor.execute("SELECT count(*) from metro_admin where password = '" + pass + "'")
+			counter = cursor.fetchone()
+			if counter == 1:
+				data = "Admin removed successfully."
+				cursor.execute("Delete from metro_admin where password = '" + pass + "'")
+				cursor.execute('COMMIT')
+	return render_template('boilerplate.html',data=data)
+
+@app.route('/addmin')
+def adder():
+	data = "You aren't logged in as admin yet. Please login first."
+	if logged_in == 1:
+		return render_template('addmin.html')
+	return render_template('boilerplate.html',data=data)
+
+@app.route('/addstation')
+def stati():
+	data = "You aren't logged in as admin yet. Please login first."
+	if logged_in == 1:
+		return render_template('addstation.html')
+	return render_template('boilerplate.html',data=data)
+
+@app.route('/editinfo')
+def infoedit():
+	data = "You aren't logged in as admin yet. Please login first."
+	if logged_in == 1:
+		cursor = mysql.connect().cursor()
+		cursor.execute("SELECT distinct sname from metro_facility")
+		data = cursor.fetchall()
+		return render_template('editinfo.html',data=data)
+	return render_template('boilerplate.html',data=data)
+
+@app.route('/addstat')
+def addstat():
+	data = "You aren't logged in as admin yet. Please login first."
+	if logged_in == 1:
+		if request.method == 'POST':
+			sname = request.form['sname']
+			sline = request.form['line']
+			opdate = request.form['date']
+			pin = request.form['pin']
+			wash = request.form['wash']
+			park = request.form['park']
+			grade = request.form['grade']
+			elev = request.form['elev']
+			park = request.form['park']
+			king = request.form['king']
+			room = request.form['room']
+			elev = request.form['elev']
+	return render_template('boilerplate.html',data=data)
+
+@app.route('/re_view')
+def rehash():
+	data = "You aren't logged in as admin yet. Please login first."
+	if logged_in == 1:
+		x = 1
+		cursor = mysql.connect().cursor()
+		cursor.execute("SELECT * from reviews where approval = 'No' ")
+		data = cursor.fetchall()
+		return render_template('re_view.html',data=data, x=x)
+	return render_template('boilerplate.html',data=data)
+
+@app.route('/authenticate', methods=['POST','GET'])
+def login():
+	data = "Some error occured while processing your request. Please try again."
+	error = None
+	if request.method == 'POST':
+		user = request.form['InputEmail']
+		passw = request.form['InputPassword']
+		cursor = mysql.connect().cursor()
+		cursor.execute("SELECT count(*) from metro_admin where username='" + user + "' and password='" + passw + "'")
+		count = cursor.fetchone()
+		if count[0] == 1:
+			global logged_in
+			logged_in = 1
+			return redirect(url_for('admin'))
+	return render_template('boilerplate.html',data=data)
+
+
+@app.route('/re_view2')
+def rev():
+	riddle = request.args.get('id')
+	print riddle
+	cursor = mysql.connect().cursor()
+	cursor.execute("UPDATE reviews set approval = 'Yes' where timest = '" + riddle + "'")
+	cursor.execute('COMMIT')
+	return redirect(url_for('rehash'))
+
 @app.route('/nearest/')
 def trial():
 	cursor = mysql.connect().cursor()
@@ -210,6 +238,13 @@ def trial():
 	cursor.execute("SELECT distinct pname from metro_places order by sname")
 	names = cursor.fetchall()
 	return render_template('nearest.html',data=data, names=names )
+
+@app.route('/places')
+def placate():
+	data = "You aren't logged in as admin yet. Please login first."
+	if logged_in == 1:
+		return render_template('placeadmin.html')
+	return render_template('boilerplate.html',data=data)
 
 if __name__ == '__main__':
 	app.debug = True
