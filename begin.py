@@ -59,7 +59,6 @@ def add():
 		cursor = mysql.connect().cursor()
 		cursor.execute("insert into reviews values ('"+ stat + "','" + title + "','" + author + "', now() ,'" + desc + "','No')")
 		cursor.execute('COMMIT')
-		#cursor.execute("CALL ins_reviews('" + stat +"','" + title +"','"+ author + "','" +desc +"')")
 		data = "Review has been added. It will be displayed once approved by the admin."
 	return render_template('boilerplate.html',data=data)
 
@@ -134,19 +133,19 @@ def addadmin():
 	return render_template("boilerplate.html",data=data)
 
 @app.route('/deladmin',methods=['GET','POST'])
-def adder():
+def adderall():
 	data = "You aren't logged in as admin yet. Please login first."
 	if logged_in == 1:
 		data = "Please access page through proper channel."
 		if request.method == 'POST':
 			data = "Password is incorrect."
-			user = request.form['pass']
+			passw = request.form['passa']
 			cursor = mysql.connect().cursor()
-			cursor.execute("SELECT count(*) from metro_admin where password = '" + pass + "'")
+			cursor.execute("SELECT count(*) from metro_admin where password='" + passw + "'")
 			counter = cursor.fetchone()
-			if counter == 1:
+			if counter[0] == 1:
 				data = "Admin removed successfully."
-				cursor.execute("Delete from metro_admin where password = '" + pass + "'")
+				cursor.execute("DELETE from metro_admin where password='" + passw + "'")
 				cursor.execute('COMMIT')
 	return render_template('boilerplate.html',data=data)
 
@@ -174,23 +173,45 @@ def infoedit():
 		return render_template('editinfo.html',data=data)
 	return render_template('boilerplate.html',data=data)
 
-@app.route('/addstat')
+@app.route('/editinfo2',methods=['GET','POST'])
+def infoedit2():
+	data = "You aren't logged in as admin yet. Please login first."
+	if logged_in == 1:
+		data = "More data required. Please try again."
+		if request.method == 'POST':
+			data = "Station values edited successfully!"
+			cursor = mysql.connect().cursor()
+			oldname = request.form['stat_name']
+			newname = request.form['sname']
+			date = request.name['date']
+			pin = request.name['pin']
+			contact = request.name['contact']
+			washroom = request.name['washroom']
+			parking = request.name['parking']
+			elevator = request.name['elevator']
+			cursor.execute("andhi queries")
+			cursor.execute('COMMIT')
+	return render_template('boilerplate.html',data=data)
+
+@app.route('/addstat',methods=['POST','GET'])
 def addstat():
 	data = "You aren't logged in as admin yet. Please login first."
 	if logged_in == 1:
+		data = "This page requires additional information not posted. Please try again."
 		if request.method == 'POST':
+			data = "Data has been added successfully."
 			sname = request.form['sname']
 			sline = request.form['line']
 			opdate = request.form['date']
 			pin = request.form['pin']
-			wash = request.form['wash']
-			park = request.form['park']
+			contact = request.form['adjacent']
+			wash = request.form['washroom']
+			park = request.form['parking']
 			grade = request.form['grade']
-			elev = request.form['elev']
-			park = request.form['park']
-			king = request.form['king']
-			room = request.form['room']
-			elev = request.form['elev']
+			elev = request.form['elevator']
+			cursor = mysql.connect().cursor()
+			cursor.execute("CALL add_stat()")
+			cursor.execute('COMMIT')
 	return render_template('boilerplate.html',data=data)
 
 @app.route('/re_view')
@@ -243,8 +264,55 @@ def trial():
 def placate():
 	data = "You aren't logged in as admin yet. Please login first."
 	if logged_in == 1:
-		return render_template('placeadmin.html')
+		cursor = mysql.connect().cursor()
+		cursor.execute("SELECT distinct pname from metro_places")
+		data1 = cursor.fetchall()
+		cursor.execute("SELECT distinct sname from metro_places")
+		data2 = cursor.fetchall()
+		return render_template('placeadmin.html',data1=data1,data2=data2)
 	return render_template('boilerplate.html',data=data)
+
+@app.route('/delplace')
+def delplace():
+	data = "You arent logged in as admin yet. Please login first."
+	if logged_in == 1:
+		data = "The request wasn't parsed correctly. Please try again."
+			if request.method == 'POST':
+				data = "Place deleted successfully."
+				cursor = mysql.connect().cursor()
+				pname = request.form['pname']
+				cursor.execute("DELETE from metro_places where pname='" + pname + "'")
+				cursor.execute('COMMIT')
+	return render_template('boilerplate.html',data=data)
+
+@app.route('/editplace')
+def editplace():
+	data = "You arent logged in as admin yet. Please login first."
+	if logged_in == 1:
+		data = "The request wasn't parsed correctly. Please try again."
+			if request.method == 'POST':
+				data = "Place edited successfully."
+				cursor = mysql.connect().cursor()
+				opname = request.form['opname']
+				npname = request.form['npname']
+				cursor.execute("UPDATE metro_places set pname = '" + npname + "' where pname='" + opname + "'")
+				cursor.execute('COMMIT')
+	return render_template('boilerplate.html',data=data)
+
+@app.route('/addplace')
+def addplace():
+	data = "You arent logged in as admin yet. Please login first."
+	if logged_in == 1:
+		data = "The request wasn't parsed correctly. Please try again."
+			if request.method == 'POST':
+				data = "Place edited successfully."
+				cursor = mysql.connect().cursor()
+				sname = request.form['sname']
+				pname = request.form['pname']
+				cursor.execute("INSERT into metro_places values ('" + sname + "',' +pname +"'")
+				cursor.execute('COMMIT')
+	return render_template('boilerplate.html',data=data)
+
 
 if __name__ == '__main__':
 	app.debug = True

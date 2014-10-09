@@ -35,7 +35,7 @@
 
   <div class="container">
     <div class="masthead">
-      <h3 class="text-muted"><a href ="index.html">DMRC</a> Admin Page</h3>
+      <h3 class="text-muted"><a href ="/">DMRC</a> Admin Page</h3>
       <ul class="nav nav-justified">
         <li><a href="/admin">Home</a></li>
         <li><a href="/addmin">Admin Panel</a></li>
@@ -51,7 +51,7 @@
     <div class="row">
       <div class="col-lg-8">
         <h2>Add New Station</h2>
-        <form role="form">
+        <form role="form" method="post" action='/addstat'>
           <p>Enter details of the new station: </p>
           <p><br>Station Name</p>
           <div class="form-group">
@@ -92,33 +92,33 @@
           <p>Washroom</p>
           <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-primary active">
-              <input type="radio" name="options" id="option1" checked> Yes
+              <input type="radio" name="washroom" value="Yes" checked> Yes
             </label>
             <label class="btn btn-primary">
-              <input type="radio" name="options" id="option2"> No
+              <input type="radio" name="washroom" value="No"> No
             </label>
           </div>
 
           <p><br>Parking</p>
           <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-primary active">
-              <input type="radio" name="options" id="option1" checked> Yes
+              <input type="radio" name="parking" value="Yes" checked> Yes
             </label>
             <label class="btn btn-primary">
-              <input type="radio" name="options" id="option2"> No
+              <input type="radio" name="parking" value="No"> No
             </label>
           </div>
 
           <p><br>Grade</p>
           <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-primary active">
-              <input type="radio" name="options" id="option1" checked>Underground
+              <input type="radio" name="grade" value="Underground" checked>Underground
             </label>
             <label class="btn btn-primary">
-              <input type="radio" name="options" id="option2"> At Grade
+              <input type="radio" name="grade" value="At Grade"> At Grade
             </label>
             <label class="btn btn-primary">
-              <input type="radio" name="options" id="option3"> Elevated
+              <input type="radio" name="grade" value="Elevated"> Elevated
             </label>
           </div>
 
@@ -145,7 +145,7 @@
     <div class="footer">
       <p>&copy; Adi-Aman-Chait</p>
     </div>
-
+</div>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

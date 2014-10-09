@@ -54,18 +54,18 @@
 	<div class="row">
         <div class="col-lg-4">
           <h2>Add Place</h2>
-		  <form role="form" class="col-md-9 go-right" action="/addadmin" method="post">
+		  <form role="form" class="col-md-9 go-right" action="/addplace" method="post">
 
           <p>Enter station near new place: </p>
-          <select id="e1" type="hidden" name="stat_name" >
-            {% for i in data: %}
+          <select id="e1" type="hidden" name="sname" >
+            {% for i in data2: %}
             <option value="{{ i[0] }}">{{ i[0] }}</option>
             {% endfor %}
           </select>
 
            <p><br>Enter Place Name:</p>
       <div class="form-group">
-      <input id="source2" name="passa" type="password" class="form-control" required>
+      <input id="source2" name="pname" type="text" class="form-control" required>
       <label for="source2">Place</label>
       </div>
 
@@ -77,43 +77,39 @@
         </div>
         <div class="col-lg-4">
           <h2>Edit Place</h2>
-      <form role="form" class="col-md-9 go-right" action="/addadmin" method="post">
+      <form role="form" class="col-md-9 go-right" action="/editplace" method="post">
 
             <p>Enter previous place name: </p>
-          <select id="e2" type="hidden" name="stat_name" >
-            {% for i in data: %}
+          <select id="e2" type="hidden" name="opname" >
+            {% for i in data1: %}
             <option value="{{ i[0] }}">{{ i[0] }}</option>
             {% endfor %}
           </select>
 
            <p><br>Enter new name:</p>
       <div class="form-group">
-      <input id="source2" name="passa" type="password" class="form-control" required>
-      <label for="source2">Password</label>
+      <input id="source2" name="npname" type="text" class="form-control" required>
+      <label for="source2">Place</label>
       </div>
-
     <br>
-
         <button type="submit" class="btn btn-default">Edit Place</button>
     </form>
 
         </div>
         <div class="col-lg-4">
           <h2>Delete Place</h2>
-      <form role="form" class="col-md-9 go-right" action="/addadmin" method="post">
+      <form role="form" class="col-md-9 go-right" action="/delplace" method="post">
 
           <p>Enter place name: </p>
-          <select id="e3" type="hidden" name="stat_name" >
-            {% for i in data: %}
+          <select id="e3" type="hidden" name="pname" >
+            {% for i in data1: %}
             <option value="{{ i[0] }}">{{ i[0] }}</option>
             {% endfor %}
           </select>
           <br><br>
         <button type="submit" class="btn btn-default">Delete Place</button>
       </form>
-
         </div>
-
 	</div>
 
 	<!-- Site footer -->

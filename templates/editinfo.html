@@ -36,7 +36,7 @@
 
   <div class="container">
     <div class="masthead">
-      <h3 class="text-muted"><a href ="index.html">DMRC</a> Admin Page</h3>
+      <h3 class="text-muted"><a href ="/">DMRC</a> Admin Page</h3>
       <ul class="nav nav-justified">
         <li><a href="/admin">Home</a></li>
         <li><a href="/addmin">Admin Panel</a></li>
@@ -49,10 +49,11 @@
 
     <br> <br>
 
+   <div class ="container">
     <div class="row">
       <div class="col-lg-8">
         <h2>Edit Station Info</h2>
-     <!--   <form role="form" class="col-md-9 go-right"> -->
+        <form role="form" class="col-md-8" method="post" action="/editinfo2">
           <p>Enter the station whose info you want to edit: </p>
           <select id="e1" type="hidden" name="stat_name" >
             {% for i in data: %}
@@ -61,65 +62,64 @@
           </select>
           <p><br>Station Name</p>
           <div class="form-group">
-            <input id="source" name="source" type="text" class="form-control" required>
+            <input id="source" name="sname" type="text" class="form-control" required>
             <label for="source">Name</label>
           </div>
 
           <p>Opening Date</p>
           <div class="form-group">
-            <input id="source" name="source" type="text" class="form-control" required>
+            <input id="source" name="date" type="text" class="form-control" required>
             <label for="source">Date</label>
           </div>
 
           <p>Pincode</p>
           <div class="form-group">
-            <input id="source" name="source" type="text" class="form-control" required>
+            <input id="source" name="pin" type="text" class="form-control" required>
             <label for="source">Pincode</label>
           </div>
 
           <p>Contact</p>
           <div class="form-group">
-            <input id="source" name="source" type="text" class="form-control" required>
+            <input id="source" name="contact" type="text" class="form-control" required>
             <label for="source">Contact</label>
           </div>
 
           <p>Washroom</p>
           <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-primary active">
-              <input type="radio" name="options" id="option1" checked> Yes
+              <input type="radio" name="washroom" value="Yes" checked> Yes
             </label>
             <label class="btn btn-primary">
-              <input type="radio" name="options" id="option2"> No
+              <input type="radio" name="washroom" value="No"> No
             </label>
           </div>
 
           <p><br>Parking</p>
           <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-primary active">
-              <input type="radio" name="options" id="option1" checked> Yes
+              <input type="radio" name="parking" value="Yes" checked> Yes
             </label>
             <label class="btn btn-primary">
-              <input type="radio" name="options" id="option2"> No
+              <input type="radio" name="parking" value="No"> No
             </label>
-          </div>
-
           </div>
 
           <p><br>Elevator/Escalator</p>
           <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-primary active">
-              <input type="radio" name="options" id="option1" checked> Yes
+              <input type="radio" name="elevator" value="Yes" checked> Yes
             </label>
             <label class="btn btn-primary">
-              <input type="radio" name="options" id="option2"> No
+              <input type="radio" name="elevator" value="No"> No
             </label>
+            </div>
+            <br>
+            <br>
+            <button type="submit" class="btn btn-default">Submit</button>
           </div>
 
-          <br>
-          <br>
 
-          <button type="submit" class="btn btn-default">Submit</button>
-         <!-- </form> -->
+          </form>
 
 
       </div>
@@ -130,7 +130,7 @@
     <div class="footer">
       <p>&copy; Adi-Aman-Chait</p>
     </div>
-
+</div>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
