@@ -44,7 +44,7 @@ def review():
 def review2():
 	name = request.args.get('stat_name')
 	cursor = mysql.connect().cursor()
-	cursor.execute("SELECT title,author,timest,bodytext from reviews where sname = '"+ name +"' and approval = 'Yes'")
+	cursor.execute("SELECT title,bodytext,author from reviews where sname = '"+ name +"' and approval = 'Yes'")
 	review = cursor.fetchall()
 	return render_template('review2.html',review=review)
 
@@ -57,7 +57,7 @@ def add():
 		desc = request.form['desc']
 		author = request.form['author']
 		cursor = mysql.connect().cursor()
-		cursor.execute("insert into reviews values ('"+ stat + "','" + title + "','" + author + "', now() ,'" + desc + "','No')")
+		cursor.execute("insert into reviews(sname,title,author,timest,bodytext,approval) values ('"+ stat + "','" + title + "','" + author + "', now() ,'" + desc + "','No')")
 		cursor.execute('COMMIT')
 		data = "Review has been added. It will be displayed once approved by the admin."
 	return render_template('boilerplate.html',data=data)
@@ -81,9 +81,9 @@ def info_actual():
 		cursor = mysql.connect().cursor()
 		cursor.execute("SELECT * from metro_facility where sname = '" + name + "'")
 		infor = cursor.fetchone()
-		cursor.execute("SELECT * from metro_stations where sname = '" + name + "'")
+		cursor.execute("SELECT line,grade from metro_stations where sname = '" + name + "'")
 		inform = cursor.fetchall()
-		cursor.execute("SELECT pname from metro_places where sname = '" + name + "'")
+		cursor.execute("SELECT place from metro_places where sname = '" + name + "'")
 		informa = cursor.fetchall()
 		return render_template('info2.html',infor=infor,inform=inform,informa=informa)
 	else:
@@ -100,7 +100,7 @@ def closer(info):
 	if info == 'near':
 		place = request.args.get('by')
 		cursor = mysql.connect().cursor()
-		cursor.execute("SELECT sname from metro_places where pname = '" + place +"'")
+		cursor.execute("SELECT sname from metro_places where place = '" + place +"'")
 		stations = cursor.fetchall()
 		return render_template('nearest2.html',stations=stations)
 	return render_template('nearest.html')
@@ -189,7 +189,7 @@ def infoedit2():
 			washroom = request.name['washroom']
 			parking = request.name['parking']
 			elevator = request.name['elevator']
-			cursor.execute("andhi queries")
+			cursor.execute("query")
 			cursor.execute('COMMIT')
 	return render_template('boilerplate.html',data=data)
 
@@ -210,7 +210,7 @@ def addstat():
 			grade = request.form['grade']
 			elev = request.form['elevator']
 			cursor = mysql.connect().cursor()
-			cursor.execute("CALL add_stat()")
+			cursor.execute("CALL add_station("'" + adjacent +"','" + sname +"','" + wash +"','" + park +"','" + elev +"','" + date +"','" + contact +"','" + pin +"',' 1 ','" + sline +"','" + grade +')")
 			cursor.execute('COMMIT')
 	return render_template('boilerplate.html',data=data)
 
@@ -245,7 +245,6 @@ def login():
 @app.route('/re_view2')
 def rev():
 	riddle = request.args.get('id')
-	print riddle
 	cursor = mysql.connect().cursor()
 	cursor.execute("UPDATE reviews set approval = 'Yes' where timest = '" + riddle + "'")
 	cursor.execute('COMMIT')
@@ -256,7 +255,7 @@ def trial():
 	cursor = mysql.connect().cursor()
 	cursor.execute("SELECT distinct pincode from metro_facility")
 	data = cursor.fetchall()
-	cursor.execute("SELECT distinct pname from metro_places order by sname")
+	cursor.execute("SELECT distinct place from metro_places order by sname")
 	names = cursor.fetchall()
 	return render_template('nearest.html',data=data, names=names )
 
@@ -265,7 +264,7 @@ def placate():
 	data = "You aren't logged in as admin yet. Please login first."
 	if logged_in == 1:
 		cursor = mysql.connect().cursor()
-		cursor.execute("SELECT distinct pname from metro_places")
+		cursor.execute("SELECT distinct place from metro_places")
 		data1 = cursor.fetchall()
 		cursor.execute("SELECT distinct sname from metro_places")
 		data2 = cursor.fetchall()
@@ -281,7 +280,7 @@ def delplace():
 			data = "Place deleted successfully."
 			cursor = mysql.connect().cursor()
 			pname = request.form['pname']
-			cursor.execute("DELETE from metro_places where pname='" + pname + "'")
+			cursor.execute("DELETE from metro_places where place='" + pname + "'")
 			cursor.execute('COMMIT')
 	return render_template('boilerplate.html',data=data)
 
@@ -295,7 +294,7 @@ def editplace():
 			cursor = mysql.connect().cursor()
 			opname = request.form['opname']
 			npname = request.form['npname']
-			cursor.execute("UPDATE metro_places set pname = '" + npname + "' where pname='" + opname + "'")
+			cursor.execute("UPDATE metro_places set place = '" + npname + "' where place='" + opname + "'")
 			cursor.execute('COMMIT')
 	return render_template('boilerplate.html',data=data)
 
@@ -309,7 +308,7 @@ def addplace():
 			cursor = mysql.connect().cursor()
 			sname = request.form['sname']
 			pname = request.form['pname']
-			cursor.execute("INSERT into metro_places(sname,pname) values ('" + sname + "','"+pname +"')")
+			cursor.execute("INSERT into metro_places(sname,place) values ('" + sname + "','"+pname +"')")
 			cursor.execute('COMMIT')
 	return render_template('boilerplate.html',data=data)
 
