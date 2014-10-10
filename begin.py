@@ -272,45 +272,52 @@ def placate():
 		return render_template('placeadmin.html',data1=data1,data2=data2)
 	return render_template('boilerplate.html',data=data)
 
-@app.route('/delplace')
+@app.route('/delplace',methods=['GET','POST'])
 def delplace():
 	data = "You arent logged in as admin yet. Please login first."
 	if logged_in == 1:
 		data = "The request wasn't parsed correctly. Please try again."
-			if request.method == 'POST':
-				data = "Place deleted successfully."
-				cursor = mysql.connect().cursor()
-				pname = request.form['pname']
-				cursor.execute("DELETE from metro_places where pname='" + pname + "'")
-				cursor.execute('COMMIT')
+		if request.method == 'POST':
+			data = "Place deleted successfully."
+			cursor = mysql.connect().cursor()
+			pname = request.form['pname']
+			cursor.execute("DELETE from metro_places where pname='" + pname + "'")
+			cursor.execute('COMMIT')
 	return render_template('boilerplate.html',data=data)
 
-@app.route('/editplace')
+@app.route('/editplace',methods=['GET','POST'])
 def editplace():
 	data = "You arent logged in as admin yet. Please login first."
 	if logged_in == 1:
 		data = "The request wasn't parsed correctly. Please try again."
-			if request.method == 'POST':
-				data = "Place edited successfully."
-				cursor = mysql.connect().cursor()
-				opname = request.form['opname']
-				npname = request.form['npname']
-				cursor.execute("UPDATE metro_places set pname = '" + npname + "' where pname='" + opname + "'")
-				cursor.execute('COMMIT')
+		if request.method == 'POST':
+			data = "Place edited successfully."
+			cursor = mysql.connect().cursor()
+			opname = request.form['opname']
+			npname = request.form['npname']
+			cursor.execute("UPDATE metro_places set pname = '" + npname + "' where pname='" + opname + "'")
+			cursor.execute('COMMIT')
 	return render_template('boilerplate.html',data=data)
 
-@app.route('/addplace')
+@app.route('/addplace',methods=['GET','POST'])
 def addplace():
 	data = "You arent logged in as admin yet. Please login first."
 	if logged_in == 1:
 		data = "The request wasn't parsed correctly. Please try again."
-			if request.method == 'POST':
-				data = "Place edited successfully."
-				cursor = mysql.connect().cursor()
-				sname = request.form['sname']
-				pname = request.form['pname']
-				cursor.execute("INSERT into metro_places values ('" + sname + "',' +pname +"'")
-				cursor.execute('COMMIT')
+		if request.method == 'POST':
+			data = "Place added successfully."
+			cursor = mysql.connect().cursor()
+			sname = request.form['sname']
+			pname = request.form['pname']
+			cursor.execute("INSERT into metro_places(sname,pname) values ('" + sname + "','"+pname +"')")
+			cursor.execute('COMMIT')
+	return render_template('boilerplate.html',data=data)
+
+@app.route('/logout')
+def logout():
+	global logged_in
+	logged_in = 0
+	data = "You have been logged out successfully"
 	return render_template('boilerplate.html',data=data)
 
 
