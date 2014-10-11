@@ -18,14 +18,14 @@ def home():
 @app.route('/info/')
 def info():
 	cursor = mysql.connect().cursor()
-	cursor.execute("SELECT distinct sname from metro_facility")
+	cursor.execute("SELECT distinct sname from metro_facility order by sname")
 	data = cursor.fetchall()
 	return render_template('info.html',data=data)
 
 @app.route('/directions/')
 def directions():
 	cursor = mysql.connect().cursor()
-	cursor.execute("SELECT distinct sname from metro_facility")
+	cursor.execute("SELECT distinct sname from metro_facility order by sname")
 	data = cursor.fetchall()
 	return render_template('directions.html',data=data)
 
@@ -36,7 +36,7 @@ def about():
 @app.route('/review/')
 def review():
 	cursor = mysql.connect().cursor()
-	cursor.execute("SELECT distinct sname from metro_facility")
+	cursor.execute("SELECT distinct sname from metro_facility order by sname")
 	data = cursor.fetchall()
 	return render_template('review.html',data=data)
 
@@ -118,18 +118,21 @@ def admin():
 def addadmin():
 	data = "You aren't logged in as admin yet. Please login first."
 	if request.method == 'POST':
-		data = "Passwords don't match, please try again."
 		cursor = mysql.connect().cursor()
 		user = request.form['user']
 		passw = request.form['passa']
 		passo = request.form['passb']
 		if passo == passw:
-			data = "Admin added successfully"
-			cursor.execute("insert into metro_admin values ('" + user + "','" + passw + "')")
-			cursor.execute('COMMIT')
-			return render_template("boilerplate.html",data=data)
+			cursor.execute("Select count(*) from metro_admin where username = '" + user + "'")
+			username = cursor.fetchone()
+			if username == user:
+				data = "Username already exists, please try again."
+			else:
+				cursor.execute("insert into metro_admin values ('" + user + "','" + passw + "')")
+				cursor.execute('COMMIT')
+				data = "Admin added successfully"
 		else:
-			return render_template("boilerplate.html",data=data)
+			data = "Passwords dont match, please try again."
 	return render_template("boilerplate.html",data=data)
 
 @app.route('/deladmin',methods=['GET','POST'])
@@ -139,13 +142,14 @@ def adderall():
 		data = "Please access page through proper channel."
 		if request.method == 'POST':
 			data = "Password is incorrect."
+			user = requesst.form['usera']
 			passw = request.form['passa']
 			cursor = mysql.connect().cursor()
-			cursor.execute("SELECT count(*) from metro_admin where password='" + passw + "'")
+			cursor.execute("SELECT count(*) from metro_admin where password='" + passw + "' and username='"+ user +"'")
 			counter = cursor.fetchone()
 			if counter[0] == 1:
 				data = "Admin removed successfully."
-				cursor.execute("DELETE from metro_admin where password='" + passw + "'")
+				cursor.execute("DELETE from metro_admin where password='" + passw + "' and username ='" +user+ "'")
 				cursor.execute('COMMIT')
 	return render_template('boilerplate.html',data=data)
 
@@ -168,7 +172,7 @@ def infoedit():
 	data = "You aren't logged in as admin yet. Please login first."
 	if logged_in == 1:
 		cursor = mysql.connect().cursor()
-		cursor.execute("SELECT distinct sname from metro_facility")
+		cursor.execute("SELECT distinct sname from metro_facility order by sname")
 		data = cursor.fetchall()
 		return render_template('editinfo.html',data=data)
 	return render_template('boilerplate.html',data=data)
@@ -209,8 +213,9 @@ def addstat():
 			park = request.form['parking']
 			grade = request.form['grade']
 			elev = request.form['elevator']
+			adjacent = request.form['adjacent']
 			cursor = mysql.connect().cursor()
-			cursor.execute("CALL add_station("'" + adjacent +"','" + sname +"','" + wash +"','" + park +"','" + elev +"','" + date +"','" + contact +"','" + pin +"',' 1 ','" + sline +"','" + grade +')")
+			cursor.execute("CALL add_station('" + adjacent + "','" + sname + "','" + wash + "','" + park + "','" + elev + "','" + date + "','" + contact + "','" + pin + "', 1 ,'" + sline + "','" + grade + "')")
 			cursor.execute('COMMIT')
 	return render_template('boilerplate.html',data=data)
 
@@ -253,7 +258,7 @@ def rev():
 @app.route('/nearest/')
 def trial():
 	cursor = mysql.connect().cursor()
-	cursor.execute("SELECT distinct pincode from metro_facility")
+	cursor.execute("SELECT distinct pincode from metro_facility order by pincode")
 	data = cursor.fetchall()
 	cursor.execute("SELECT distinct place from metro_places order by sname")
 	names = cursor.fetchall()
@@ -264,9 +269,9 @@ def placate():
 	data = "You aren't logged in as admin yet. Please login first."
 	if logged_in == 1:
 		cursor = mysql.connect().cursor()
-		cursor.execute("SELECT distinct place from metro_places")
+		cursor.execute("SELECT distinct place from metro_places order by place")
 		data1 = cursor.fetchall()
-		cursor.execute("SELECT distinct sname from metro_places")
+		cursor.execute("SELECT distinct sname from metro_places order by sname")
 		data2 = cursor.fetchall()
 		return render_template('placeadmin.html',data1=data1,data2=data2)
 	return render_template('boilerplate.html',data=data)
