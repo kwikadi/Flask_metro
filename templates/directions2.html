@@ -81,8 +81,8 @@
         {% for i in data: %}
         <tr>
           <td>{{ i[2] }}</td>
-          <td>{{ i[0] }}</td>
-          <td>{{ i[1] }}</td>
+          <td><a href="/info2?stat_name={{ i[0] }}" >{{ i[0] }}</a></td>
+          <td><a href="/info2?stat_name={{ i[1] }}" >{{ i[1] }}</a></td>
           {% if i[3] == 'TempB': %}
           <td><font color="Blue">Blue</font></td>
           {% elif i[3] == 'TempG': %}

@@ -86,7 +86,13 @@
           <tbody>
             {% for i in inform: %}
             <tr>
-              {% if i[0] != 'TempG' and i[0] != 'TempB': %}
+              {% if i[0] == 'TempG' and inform|count == 1: %}
+              <td> Green </td>
+              <td>{{ i[1] }}</td>
+              {% elif i[0] == 'TempB' and inform|count == 1: %}
+              <td> Blue </td>
+              <td>{{ i[1] }}</td>
+              {% elif (i[0] != 'TempB' and i[0] != 'TempG') : %}
               <td>{{ i[0] }}</td>
               <td>{{ i[1] }}</td>
               {% endif %}

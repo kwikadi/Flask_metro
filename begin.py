@@ -62,32 +62,26 @@ def add():
 		data = "Review has been added. It will be displayed once approved by the admin."
 	return render_template('boilerplate.html',data=data)
 
-@app.route('/directions2', methods=['POST', 'GET'])
+@app.route('/directions2')
 def dir_actual():
-	if request.method == 'POST':
-		source = request.form['source']
-		dest = request.form['dest']
-		cursor = mysql.connect().cursor()
-		cursor.execute("CALL find_path('"+ source +"','"+ dest +"')")
-		data = cursor.fetchall()
-		return render_template('directions2.html',data=data,source=source,dest=dest)
-	else:
-		return redirect(url_for('directions'))
+	source = request.args.get('source')
+	dest = request.args.get('dest')
+	cursor = mysql.connect().cursor()
+	cursor.execute("CALL find_path('"+ source +"','"+ dest +"')")
+	data = cursor.fetchall()
+	return render_template('directions2.html',data=data,source=source,dest=dest)
 
-@app.route('/info2', methods=['POST','GET'])
+@app.route('/info2')
 def info_actual():
-	if request.method == 'POST':
-		name = request.form['stat_name']
-		cursor = mysql.connect().cursor()
-		cursor.execute("SELECT * from metro_facility where sname = '" + name + "'")
-		infor = cursor.fetchone()
-		cursor.execute("SELECT line,grade from metro_stations where sname = '" + name + "'")
-		inform = cursor.fetchall()
-		cursor.execute("SELECT place from metro_places where sname = '" + name + "'")
-		informa = cursor.fetchall()
-		return render_template('info2.html',infor=infor,inform=inform,informa=informa)
-	else:
-		return redirect(url_for('info'))
+	name = request.args.get('stat_name')
+	cursor = mysql.connect().cursor()
+	cursor.execute("SELECT * from metro_facility where sname = '" + name + "'")
+	infor = cursor.fetchone()
+	cursor.execute("SELECT line,grade from metro_stations where sname = '" + name + "'")
+	inform = cursor.fetchall()
+	cursor.execute("SELECT place from metro_places where sname = '" + name + "'")
+	informa = cursor.fetchall()
+	return render_template('info2.html',infor=infor,inform=inform,informa=informa)
 
 @app.route('/nearest/<info>')
 def closer(info):
