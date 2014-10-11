@@ -86,8 +86,10 @@
           <tbody>
             {% for i in inform: %}
             <tr>
+              {% if i[0] != 'TempG' and i[0] != 'TempB': %}
               <td>{{ i[0] }}</td>
               <td>{{ i[1] }}</td>
+              {% endif %}
             </tr>
             {% endfor %}
           </tbody>

@@ -83,7 +83,13 @@
           <td>{{ i[2] }}</td>
           <td>{{ i[0] }}</td>
           <td>{{ i[1] }}</td>
+          {% if i[3] == 'TempB': %}
+          <td><font color="Blue">Blue</font></td>
+          {% elif i[3] == 'TempG': %}
+          <td><font color="Green">Green</font></td>
+          {% else: %}
           <td><font color="{{i[3]}}">{{ i[3] }}</font></td>
+          {% endif %}
         </tr>
         {% endfor %}
       </tbody>
