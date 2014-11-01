@@ -15,6 +15,7 @@
   <script src="/static/js/select2.js"></script>
   <script>
     $(document).ready(function() {
+      $("#e1").select2({width:'resolve'});
       $('.btn-group').button();
     });
   </script>
@@ -85,12 +86,13 @@
           </div>
 
           <p>Adjacent Station</p>
-          <div class="form-group">
-            <input id="source" name="adjacent" type="text" class="form-control" required>
-            <label for="source">Adjacent Station</label>
-          </div>
+          <select id="e1" type="hidden" name="adjacent" >
+            {% for i in data: %}
+            <option value="{{ i[0] }}">{{ i[0] }}</option>
+            {% endfor %}
+          </select>
 
-          <p>Washroom</p>
+          <p><br>Washroom</p>
           <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-primary active">
               <input type="radio" name="washroom" value="Yes" checked> Yes
@@ -126,10 +128,10 @@
           <p><br>Elevator/Escalator</p>
           <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-primary active">
-              <input type="radio" name="options" id="option1" checked> Yes
+              <input type="radio" name="elevator" id="option1" checked> Yes
             </label>
             <label class="btn btn-primary">
-              <input type="radio" name="options" id="option2"> No
+              <input type="radio" name="elevator" id="option2"> No
             </label>
           </div>
 

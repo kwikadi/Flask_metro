@@ -1,4 +1,11 @@
-from flask import Flask,render_template,request,redirect,url_for
+from flask import (
+	Flask,
+	render_template,
+	request,
+	redirect,
+	url_for,
+	Blueprint
+)
 from flaskext.mysql import MySQL
 app = Flask(__name__)
 
@@ -10,6 +17,12 @@ app.config['MYSQL_DATABASE_PASSWORD'] = 'aditya'
 app.config['MYSQL_DATABASE_DB'] = 'Metro'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
+
+#app = Blueprint('metro', __name__)
+
+# @app.route('/')
+# def home():
+# 	return redirect('/metro')
 
 @app.route('/')
 def home():
@@ -105,7 +118,6 @@ def admin():
 	data = "You are not logged in. Please log in to access admin features."
 	if logged_in == 1:
 		return render_template('admin.html')
-	print 'THIS IS A HOLD UP'
 	return render_template("boilerplate.html", data=data)
 
 @app.route('/addadmin', methods=['POST','GET'])
@@ -158,7 +170,10 @@ def adder():
 def stati():
 	data = "You aren't logged in as admin yet. Please login first."
 	if logged_in == 1:
-		return render_template('addstation.html')
+		cursor = mysql.connect().cursor()
+		cursor.execute("SELECT distinct sname from metro_stations")
+		data = cursor.fetchall()
+		return render_template('addstation.html',data=data)
 	return render_template('boilerplate.html',data=data)
 
 @app.route('/editinfo')
@@ -181,18 +196,20 @@ def infoedit2():
 			cursor = mysql.connect().cursor()
 			oldname = request.form['stat_name']
 			newname = request.form['sname']
-			date = request.name['date']
-			pin = request.name['pin']
-			contact = request.name['contact']
-			washroom = request.name['washroom']
-			parking = request.name['parking']
-			elevator = request.name['elevator']
-			cursor.execute("query")
+			date = request.form['date']
+			pin = request.form['pin']
+			contact = request.form['contact']
+			washroom = request.form['washroom']
+			parking = request.form['parking']
+			elevator = request.form['elevator']
+			cursor.execute("update metro_facility set sname='" +newname+ "',washroom='" +washroom+ "',parking= '" +parking+ "',elevator= '" +elevator+ "',opening_date= '" +date+ "',contact= '"+contact+"' where sname='"+oldname+"'")
+			cursor.execute("update metro_stations set sname='"+newname+"' where sname='"+oldname+"'")
+			cursor.execute("update metro_places set sname='" +newname+ "' where sname='"+oldname+"'")
 			cursor.execute('COMMIT')
 	return render_template('boilerplate.html',data=data)
 
 @app.route('/addstat',methods=['POST','GET'])
-def addstat():
+def addstatic():
 	data = "You aren't logged in as admin yet. Please login first."
 	if logged_in == 1:
 		data = "This page requires additional information not posted. Please try again."
@@ -202,14 +219,14 @@ def addstat():
 			sline = request.form['line']
 			opdate = request.form['date']
 			pin = request.form['pin']
-			contact = request.form['adjacent']
+			contact = request.form['contact']
 			wash = request.form['washroom']
 			park = request.form['parking']
 			grade = request.form['grade']
 			elev = request.form['elevator']
 			adjacent = request.form['adjacent']
 			cursor = mysql.connect().cursor()
-			cursor.execute("CALL add_station('" + adjacent + "','" + sname + "','" + wash + "','" + park + "','" + elev + "','" + date + "','" + contact + "','" + pin + "', 1 ,'" + sline + "','" + grade + "')")
+			cursor.execute("CALL add_station('" + adjacent + "','" + sname + "','" + wash + "','" + park + "','" + elev + "','" + opdate + "','" + contact + "','" + pin + "', 1 ,'" + sline + "','" + grade + "')")
 			cursor.execute('COMMIT')
 	return render_template('boilerplate.html',data=data)
 
@@ -254,7 +271,7 @@ def trial():
 	cursor = mysql.connect().cursor()
 	cursor.execute("SELECT distinct pincode from metro_facility order by pincode")
 	data = cursor.fetchall()
-	cursor.execute("SELECT distinct place from metro_places order by sname")
+	cursor.execute("SELECT distinct place from metro_places order by place")
 	names = cursor.fetchall()
 	return render_template('nearest.html',data=data, names=names )
 
@@ -265,7 +282,7 @@ def placate():
 		cursor = mysql.connect().cursor()
 		cursor.execute("SELECT distinct place from metro_places order by place")
 		data1 = cursor.fetchall()
-		cursor.execute("SELECT distinct sname from metro_places order by sname")
+		cursor.execute("SELECT distinct sname from metro_stations order by sname")
 		data2 = cursor.fetchall()
 		return render_template('placeadmin.html',data1=data1,data2=data2)
 	return render_template('boilerplate.html',data=data)
@@ -321,4 +338,6 @@ def logout():
 
 if __name__ == '__main__':
 	app.debug = True
+	# app.register_blueprint(app, url_prefix='/metro')
+	#app.register_blueprint(app, url_prefix='/')
 	app.run(host='0.0.0.0')

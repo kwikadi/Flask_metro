@@ -64,14 +64,14 @@
     <div class="row">
 		<h2>Station Information</h2>
 			<br/><br/>
-      <h5>Station name: {{ infor[1] }}</h5>
-      <h5>Washroom Available: {{ infor[2] }}</h5>
-      <h5>Parking Available: {{ infor[3] }}</h5>
-      <h5>Elevator: {{ infor[4] }}</h5>
-      <h5>Opening Date: {{ infor[5] }}</h5>
-      <h5>Contact No.: {{ infor[6] }}</h5>
-      <h5>Pincode: {{ infor[7] }}</h5>
-        <h5>Places nearby:</h5>
+      <h5><strong>Station name:</strong> {{ infor[1] }}</h5>
+      <h5><strong>Washroom Available:</strong> {{ infor[2] }}</h5>
+      <h5><strong>Parking Available:</strong> {{ infor[3] }}</h5>
+      <h5><strong>Elevator:</strong> {{ infor[4] }}</h5>
+      <h5><strong>Opening Date:</strong> {{ infor[5] }}</h5>
+      <h5><strong>Contact Number:</strong> {{ infor[6] }}</h5>
+      <h5><strong>Pincode:</strong> {{ infor[7] }}</h5>
+        <h5><strong>Places nearby:</strong></h5>
         {% for i in informa: %}
           <p></p>{{ i[0] }}</p>
         {% endfor %}
