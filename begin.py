@@ -14,7 +14,7 @@ logged_in = 0
 mysql = MySQL()
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'aditya'
-app.config['MYSQL_DATABASE_DB'] = 'Metro'
+app.config['MYSQL_DATABASE_DB'] = 'metro'
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 mysql.init_app(app)
 
@@ -205,6 +205,7 @@ def infoedit2():
 			cursor.execute("update metro_facility set sname='" +newname+ "',washroom='" +washroom+ "',parking= '" +parking+ "',elevator= '" +elevator+ "',opening_date= '" +date+ "',contact= '"+contact+"' where sname='"+oldname+"'")
 			cursor.execute("update metro_stations set sname='"+newname+"' where sname='"+oldname+"'")
 			cursor.execute("update metro_places set sname='" +newname+ "' where sname='"+oldname+"'")
+			cursor.execute("update reviews set sname='" +newname+ "' where sname='"+oldname+"'")
 			cursor.execute('COMMIT')
 	return render_template('boilerplate.html',data=data)
 
@@ -263,6 +264,14 @@ def rev():
 	riddle = request.args.get('id')
 	cursor = mysql.connect().cursor()
 	cursor.execute("UPDATE reviews set approval = 'Yes' where timest = '" + riddle + "'")
+	cursor.execute('COMMIT')
+	return redirect(url_for('rehash'))
+
+@app.route('/re_view3')
+def revel():
+	riddle = request.args.get('id')
+	cursor = mysql.connect().cursor()
+	cursor.execute("DELETE from reviews where timest = '" + riddle + "'")
 	cursor.execute('COMMIT')
 	return redirect(url_for('rehash'))
 
