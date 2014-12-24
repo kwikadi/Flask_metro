@@ -6,16 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="/static/img/icon.ico">
+    <link rel="icon" href="/metro/static/img/icon.ico">
 
     <title>Reviews</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/metro/static/css/bootstrap.min.css" rel="stylesheet">
 
-	<link href="/static/css/car.css" rel="stylesheet">
-	<link href="/static/css/about.css" rel="stylesheet">
-	<link href="/static/css/casst.css" rel="stylesheet">
+	<link href="/metro/static/css/car.css" rel="stylesheet">
+	<link href="/metro/static/css/about.css" rel="stylesheet">
+	<link href="/metro/static/css/casst.css" rel="stylesheet">
 
 	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
@@ -37,21 +37,21 @@
                <span class="icon-bar"></span>
                <span class="icon-bar"></span>
                </button>
-               <a class="navbar-brand" href="/">Delhi Metro Railway Corporation</a>
+               <a class="navbar-brand" href="/metro/">Delhi Metro Railway Corporation</a>
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                <ul class="nav navbar-nav">
-                  <li><a href="/">Home</a></li>
-                  <li><a href="/directions">Directions</a></li>
-				          <li><a href="/info">Station Information</a></li>
-				          <li><a href="/nearest">Nearest Metro Station</a></li>
+                  <li><a href="/metro/">Home</a></li>
+                  <li><a href="/metro/directions">Directions</a></li>
+				          <li><a href="/metro/info">Station Information</a></li>
+				          <li><a href="/metro/nearest">Nearest Metro Station</a></li>
                   <li class="dropdown">
                      <a href="#what" class="dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></a>
                      <ul class="dropdown-menu">
-						          <li><a href="/review">Reviews</a></li>
+						          <li><a href="/metro/review">Reviews</a></li>
 						          <li class="divider"></li>
-						          <li><a href="/about">About Us</a></li>
+						          <li><a href="/metro/about">About Us</a></li>
                      </ul>
                   </li>
                </ul>
@@ -72,6 +72,7 @@
         <div class="row">
              <div class="carousel-inner">
                  <div class="item active">
+                 {% if review: %}
                  {% for i in review: %}
              	    <div class="col-md-4 col-sm-6">
      				    <div class="block-text rel zmin">
@@ -80,12 +81,17 @@
 						    <ins class="ab zmin sprite sprite-i-triangle block"></ins>
 				        </div>
 						<div class="person-text rel">
-			                <img src="/static/img/user.png"/>
+			                <img src="/metro/static/img/user.png"/>
 							<a title="">{{i[2]}}</a>
 							<br><br><br><br><br><br><br><br><br>
 						</div>
 						</div>
             {% endfor %}
+            {% else %}
+            <div class="alert alert-info" role="alert">
+        <strong>NOTE: </strong> There are no reviews for this station!
+      </div>
+            {% endif %}
 					</div>
              </div>
         </div>
@@ -96,7 +102,7 @@
 <div class="container">
 <footer>
         <p class="pull-right"><a href="#">Back to top</a></p>
-        <p>&copy; Adi-Aman-Chait &middot; <a href="/about">About</a></p>
+        <p>&copy; Adi-Aman-Chait &middot; <a href="/metro/about">About</a></p>
       </footer>
 
     </div><!-- /.container -->
@@ -105,10 +111,10 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="/static/js/jquery.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
-    <script src="/static/js/docs.min.js"></script>
-	<script src="/static/js/car.js"></script>
+    <script src="/metro/static/js/jquery.js"></script>
+    <script src="/metro/static/js/bootstrap.min.js"></script>
+    <script src="/metro/static/js/docs.min.js"></script>
+	<script src="/metro/static/js/car.js"></script>
   </body>
 </html>
 
